@@ -22,7 +22,7 @@ function mm_default($field, $value='', $roles='', $templates='', $eval=false) {
 		return;
 	} 
 	
-	if (useThisRule($roles, $templates)) {
+	if ($e->name == 'OnDocFormRender' && useThisRule($roles, $templates)) {
 		
 		// What's the new value, and does it include PHP?
 		$new_value = ($eval) ? eval($value) : $value;
@@ -31,16 +31,27 @@ function mm_default($field, $value='', $roles='', $templates='', $eval=false) {
 		
 		
 		// Work out the correct date time format based on the config setting
-		$date_format = $modx->toDateFormat(null, 'formatOnly');
+		switch($modx->config['datetime_format']) {
+			case 'dd-mm-YYYY':
+				$date_format = 'd-m-Y';
+			break;	
+			case 'mm/dd/YYYY':
+				$date_format = 'm-d-Y';
+			break;
+			case 'YYYY/mm/dd':
+				$date_format = 'Y-m-d';
+			break;
+		}
+		
 		
 		switch ($field) {
 			case 'pub_date':
-				$new_value = ($new_value=='') ? strftime($date_format . ' %H:%M:%S') : $new_value;
+				$new_value = ($new_value=='') ? date("$date_format H:i:s") : $new_value;
 				$output .= '$j("input[name=pub_date]").val("'.jsSafe($new_value).'"); '."\n";
 			break;
 			
 			case 'unpub_date':
-				$new_value = ($new_value=='') ? strftime($date_format . ' %H:%M:%S') : $new_value;
+				$new_value = ($new_value=='') ? date("$date_format H:i:s") : $new_value;
 				$output .= '$j("input[name=unpub_date]").val("'.jsSafe($new_value).'"); '."\n";
 			break;
 			
@@ -114,7 +125,17 @@ function mm_default($field, $value='', $roles='', $templates='', $eval=false) {
 					$output .= '$j("input[name=isfoldercheck]").removeAttr("checked"); '."\n";
 				}
 			break;
-			
+
+			case 'alias_visible':
+				$new_value = ($value)?'1':'0';
+				$output .= '$j("input[name=alias_visible]").val("'.$new_value.'"); '."\n";
+				if ($value) {
+					$output .= '$j("input[name=alias_visible_check]").attr("checked", "checked"); '."\n";
+				} else {
+					$output .= '$j("input[name=alias_visible_check]").removeAttr("checked"); '."\n";
+				}
+			break;
+
 			case 'is_richtext':
 			case 'richtext':
 				$new_value = ($value)?'1':'0';
@@ -156,7 +177,7 @@ function mm_default($field, $value='', $roles='', $templates='', $eval=false) {
 			
 			
 			default:
-				return;
+				$output .= '$j("*[name='.$field.']").val("'.$new_value.'");' . "\n"; //return;
 			break;
 		}	
 		$e->output($output . "\n");	
@@ -185,19 +206,20 @@ function mm_inherit($fields, $roles='', $templates='') {
 	} 
 	
 	// Are we using this rule?
-	if (useThisRule($roles, $templates)) {
+	if ($e->name == 'OnDocFormRender' && useThisRule($roles, $templates)) {
 		
 		// Get the parent info
-		if (isset($_REQUEST['pid']) && is_numeric($_REQUEST['pid'])){
-			$parentID = intval($_REQUEST['pid']);	
-		} else if (isset($_REQUEST['parent']) && is_numeric($_REQUEST['parent'])){
-			$parentID = intval($_REQUEST['parent']);
+		if (isset($_REQUEST['pid'])){
+			$parentID = $modx->getPageInfo($_REQUEST['pid'],0,'id');
+			$parentID = $parentID['id'];
 		} else {
 			$parentID = 0;
 		}
 	
 		$output = " // ----------- Inherit (from page $parentID)-------------- \n";
-			
+	
+		
+		
 		foreach ($fields as $field) {
 			
 			// get some info about the field we are being asked to use
@@ -205,13 +227,11 @@ function mm_inherit($fields, $roles='', $templates='') {
 						$fieldtype = $mm_fields[$field]['fieldtype'];
 						$fieldname = $mm_fields[$field]['fieldname'];
 						$dbname = $mm_fields[$field]['dbname'];
+						if(!empty($mm_fields[$field]['tv'])) $dbname = $field;
 						
 						// Get this field data from the parent
-						$newArray = $modx->getDocument($parentID, $dbname);
-						if ( empty($newArray)) { // If no results, check if there is an unpublished doc
-							$newArray = $modx->getDocument($parentID, $dbname, 0);
-						}
-						$newvalue = $newArray[$dbname];
+						$newArray = !empty($parentID) ? $modx->getTemplateVarOutput($dbname, $parentID) : false;
+						$newvalue = !empty($parentID) ? $newArray[$dbname] : '';
 			} else {
 				break;	 // If it's not something stored in the database, don't get the value
 			}
@@ -251,7 +271,7 @@ function mm_inherit($fields, $roles='', $templates='') {
 						break;
 						
 						default: 
-							$output .=  '$j("'.$fieldtype.'[name='.$fieldname.']").val("' . jsSafe($newvalue) . '"); ';
+							if(!empty($newvalue)) $output .=  '$j("'.$fieldtype.'[name='.$fieldname.']").val("' . jsSafe($newvalue) . '"); ';
 						break;	
 					}
 				break;	
@@ -286,7 +306,7 @@ function mm_synch_fields($fields, $roles='', $templates='') {
 	}
 		
 	// if the current page is being edited by someone in the list of roles, and uses a template in the list of templates
-	if (useThisRule($roles, $templates)) {
+	if ($e->name == 'OnDocFormRender' && useThisRule($roles, $templates)) {
 	
 	$output = " // ----------- Synch fields -------------- \n";
 	
