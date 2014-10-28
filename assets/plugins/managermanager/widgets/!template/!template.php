@@ -35,17 +35,14 @@ function mm_widget_template($fields, $other_param='defaultValue', $roles='', $te
 			return;
 		}		
 		
-		
-		
 		// We always put a JS comment, which makes debugging much easier
 		$output .= "//  -------------- Widget name ------------- \n";
 		
 		// We have functions to include JS or CSS external files you might need
 		// The standard ModX API methods don't work here
-		$output .= includeJs('/assets/plugins/managermanager/widgets/template/javascript.js');
-		$output .= includeCss('/assets/plugins/managermanager/widgets/template/styles.css');
+		$output .= includeJs($modx->config['base_url'] . 'assets/plugins/managermanager/widgets/template/javascript.js');
+		$output .= includeCss($modx->config['base_url'] . 'assets/plugins/managermanager/widgets/template/styles.css');
 		
-				
 		// Do something for each of the fields supplied
 		foreach ($fields as $targetTv) {
 		
@@ -55,7 +52,6 @@ function mm_widget_template($fields, $other_param='defaultValue', $roles='', $te
 		
 		}
 		
-	
 		$e->output($output . "\n");	// Send the output to the browser
 	} // end if
 	

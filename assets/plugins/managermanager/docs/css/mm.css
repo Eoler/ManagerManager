@@ -162,6 +162,7 @@ h4 {
     color: #FFFFFF;
 	text-shadow: 0 -1px 0 #0070AF;
 	height: 57px;
+	z-index:1;
 }
 
 #nav ul li {list-style: none;}

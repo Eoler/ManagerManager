@@ -10,26 +10,24 @@ ul.mmTagList {
 }
 ul.mmTagList li {
 	list-style: none;
-	margin: 0;
-	padding: 0;
 	text-decoration: underline;
 	color: #19242F;
 	float: left;
-	margin: 0 5px 0 0;
-	cursor:pointer;
+	margin: 2px 5px 0 0;
+	cursor: pointer;
 	padding: 1px 6px;
 }
 ul.mmTagList li:hover {
-	background-color: #CDD6E1;
-	border-radius: 10px;
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
+	background-color: #CDE1D7;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
 }
 ul.mmTagList li.tagSelected {
-	background-color: #2A3847;
+	background-color: #125532;
 	color: #fff;
 	text-decoration: none;
-	border-radius: 10px;
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
 }

@@ -1,9 +1,5 @@
 <?php
 
-
-
-
-
 //---------------------------------------------------------------------------------
 // mm_renameField
 // Change the label for an element
@@ -59,10 +55,6 @@ function mm_renameField($field, $newlabel, $roles='', $templates='', $newhelp=''
 			
 	} // end if
 } // end function
-
-
-
-
 
 
 //---------------------------------------------------------------------------------
@@ -140,10 +132,6 @@ function mm_hideFields($fields, $roles='', $templates='') {
 } // end function
 
 
-
-
-
-
 //---------------------------------------------------------------------------------
 // mm_changeFieldHelp
 // Change the help text of a field
@@ -163,8 +151,6 @@ function mm_changeFieldHelp($field, $helptext='', $roles='', $templates='') {
 	$output = " // ----------- Change field help -------------- \n";
 	
 			switch ($field) {
-			
-	
 				
 				// Ones that follow the regular pattern
 				default:
@@ -179,8 +165,6 @@ function mm_changeFieldHelp($field, $helptext='', $roles='', $templates='') {
 						break;
 					}
 				
-				
-				
 				break;
 			} // end switch
 						
@@ -189,12 +173,30 @@ function mm_changeFieldHelp($field, $helptext='', $roles='', $templates='') {
 } // end function
 
 
+//---------------------------------------------------------------------------------
+// mm_changeTvHelp
+// Change the help text of a template variable
+//---------------------------------------------------------------------------------
+function mm_changeTvHelp($field, $helptext='', $roles='', $templates='') {
 
+	global $mm_fields, $modx;
+	$e = &$modx->Event;
 
+	// if the current page is being edited by someone in the list of roles, and uses a template in the list of templates
+	if ($e->name == 'OnDocFormRender' && useThisRule($roles, $templates)) {
 
+	$output = " // ----------- Rename field -------------- \n";
 
+  if (isset($mm_fields[$field])) {
+    $fieldtype = $mm_fields[$field]['fieldtype'];
+    $fieldname = $mm_fields[$field]['fieldname'];
+    $output .= '$j("'.$fieldtype.'[name='.$fieldname.']").parents("td").prev("td").children("span.comment").empty().prepend("'.jsSafe($helptext).'");';
+  }
 
+  $e->output($output . "\n");
 
+	} // end if
+} // end function
 
 
 //---------------------------------------------------------------------------------
@@ -263,21 +265,19 @@ function mm_moveFieldsToTab($fields, $newtab, $roles='', $templates='') {
 					$output .= 'helpline.after(rulerHtml); '. "\n";
 				break;
 			
-				
 				default:
 				
 					// What type is this field?
 					if (isset($mm_fields[$field])) {
 						$fieldname = $mm_fields[$field]['fieldname'];
 						$output .= '
-						var toMove = $j(":input[name=\''.$fieldname.'\']").parents("tr:not(.urltv)"); // Identify the table row to move
+						var toMove = $j(":input[name=\''.$fieldname.'\']").parents("tr"); // Identify the table row to move
 						var toMoveRuler = toMove.next("tr").find("td[colspan=2]").parents("tr"); // The ruler after this table row
 						toMove.find("script").remove();
 						toMove.appendTo("#tab'.$newtab.'>table:first").after(toMoveRuler); // Move the table row
 						$j("[name=\''.$fieldname.'\']:first").parents("td").removeAttr( "style" );  // This prevents an IE6/7 bug where the moved field would not be visible until you switched tabs
 						';
 					}
-								
 						
 				break;
 			
@@ -289,12 +289,6 @@ function mm_moveFieldsToTab($fields, $newtab, $roles='', $templates='') {
 		
 	}	// end if
 } // end function
-
-
-
-
-
-
 
 
 //---------------------------------------------------------------------------------
@@ -347,7 +341,6 @@ function mm_requireFields($fields, $roles='', $templates=''){
 				case 'clear_cache':
 				case 'content_type':
 				case 'content_dispo':
-				case 'which_editor':
 					$output .='';
 				break;
 				
@@ -359,7 +352,6 @@ function mm_requireFields($fields, $roles='', $templates=''){
 					$j("#pub_date, #unpub_date").each(function() { this.type = "text";  }); // Cant use jQuery attr function as datepicker class clashes with jQuery methods
 					 ';
 					
-				
 				// no break, because we want to do the things below too.
 
 				// Ones that follow the regular pattern
@@ -406,7 +398,6 @@ function mm_requireFields($fields, $roles='', $templates=''){
 						}
 						';	
 						
-						
 						$load_js .= '
 						
 						// Add an indicator this is required ('.$fieldname.')
@@ -422,8 +413,6 @@ function mm_requireFields($fields, $roles='', $templates=''){
 			}
 
 		}
-
-
 
 		$output .= $load_js . '
 		
@@ -456,9 +445,3 @@ function mm_requireFields($fields, $roles='', $templates=''){
 
 } // end function
 
-
-
-
-
-
-?>

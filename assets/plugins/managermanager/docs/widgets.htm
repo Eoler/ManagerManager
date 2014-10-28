@@ -4,12 +4,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>ManagerManager for Modx: Function reference: Widgets</title>
 <link href="css/mm.css" rel="stylesheet" type="text/css" />
-
-
 </head>
-
 <body>
-
 <div id="banner">ManagerManager plugin fo MODX Evolution</div>
 
 
@@ -206,48 +202,6 @@
 	</table>
 	
       <p><code>mm_widget_accessdenied('1,15'); // Prevents all users from accessing documents 1 and 15 (displaying default message)</code><code>mm_widget_accessdenied('1,15', 'Please select another document to edit' '2'); // Prevents  users with role 2 from accessing documents 1 and 15 (displaying custom message)</code></p>
-
-     <h2>mm_ddGMap($tvs, $roles, $templates, $w, $h)</h2>
-     <p>Integrate the Google Maps in MODX documents.</p>
-     <table>
-     	<tr>
-     		<th>Parameter</th>
-     		<th>Type</th>
-     		<th>Desctiption</th>
-     		<th>Default</th>
-     	</tr>
-     	<tr>
-     		<td>$tvs</td>
-     		<td>string; comma separated string</td>
-     		<td>The name(s) of the template variables this should apply to.</td>
-     		<td><em>Required</em></td>
-     	</tr>
-		<tr>
-			<td>$roles</td>
-			<td>string; comma separated string</td>
-			<td>List of role IDs this should be applied to. Leave empty (or omit) for all roles.</td>
-			<td>Optional; Default: ''</td>
-		</tr>
-		<tr>
-			<td>$templates</td>
-			<td>string; comma separated string</td>
-			<td>List of template IDs this should be applied to. Leave empty (or omit) for all templates.</td>
-			<td>Optional; Default: ''</td>
-		</tr>
-		<tr>
-			<td>$w</td>
-			<td>string; integer</td>
-			<td>Width of container map.</td>
-			<td>Optional; Default: 'auto'</td>
-		</tr>
-		<tr>
-			<td>$h</td>
-			<td>integer</td>
-			<td>Height of container map.</td>
-			<td>Optional; Default: 400</td>
-		</tr>
-	</table>
-	<p><i>Created by <a href="http://www.DivanDesign.biz">DivanDesign</a>.</i></p>
      
 	<h2>mm_ddYMap($tvs, $roles, $templates, $key, $w, $h)</h2>
 	<p>Integrate the Yandex Maps in MODX documents.</p>

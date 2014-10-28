@@ -26,7 +26,6 @@ function mm_widget_showimagetvs($tvs='', $w=300, $h=100, $thumbnailerUrl='', $ro
  			$style = '';
 		}
 		
-		
 		// Which template is this page using?
 		if (isset($content['template'])) {
 			$page_template = $content['template'];
@@ -36,17 +35,14 @@ function mm_widget_showimagetvs($tvs='', $w=300, $h=100, $thumbnailerUrl='', $ro
 			$page_template = $modx->config['default_template']; 
 		}
 		
-		
         // Does this page's template use any image TVs? If not, quit now!
 		$tvs = tplUseTvs($page_template, $tvs, 'image');
 		if ($tvs == false) {
 			return;
 		}			
-
 		
 		$output .= "// ---------------- mm_widget_showimagetvs: Add image preview ------------- \n";
               
-				
 		// Go through each TV 
 		foreach ($tvs as $tv) {
 		
@@ -56,8 +52,9 @@ function mm_widget_showimagetvs($tvs='', $w=300, $h=100, $thumbnailerUrl='', $ro
 			$j("#tv'.$tv['id'].'").addClass("imageField").bind( "change load", function() {
 				// Get the new URL
 				var url = $j(this).val();
+				url = (url.substr(0,1) == "@") ? "" : url; // If an @ binding, do nothing
+				url = (url != "" && url.search(/^@[a-z]+/i) == -1) ? url : url.replace(new RegExp(/^@[a-z]+/i), "");
 				url = (url != "" && url.search(/http:\/\//i) == -1) ? ("'.$site.'" + url) : url;
-				
 				';
 				
 				// If we have a PHPThumb URL
@@ -82,13 +79,11 @@ function mm_widget_showimagetvs($tvs='', $w=300, $h=100, $thumbnailerUrl='', $ro
 			$j.data(this,"lastvalue", $j(this).val());
             }).trigger("load"); // Trigger a change event on load
 	
-			
 			';	
 			
 		}
 		
 		$output .= '
-		
 		
 			// Monitor the image TVs for changes
 			checkImageTVupdates = function () {
@@ -101,11 +96,8 @@ function mm_widget_showimagetvs($tvs='', $w=300, $h=100, $thumbnailerUrl='', $ro
 			}	
 			
 			setInterval ( "checkImageTVupdates();", 250 );
-		
 	
 		';
-		
-		
 		
 		
 		$e->output($output . "\n");		

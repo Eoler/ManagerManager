@@ -12,7 +12,7 @@
  * @param $roles {comma separated string} - The roles that the widget is applied to (when this parameter is empty then widget is applied to the all roles). Default: ''.
  * @param $templates {comma separated string} - Id of the templates to which this widget is applied. Default: ''.
  * 
- * @copyright 2014, DivanDesign
+ * @copyright 2012, DivanDesign
  * http://www.DivanDesign.biz
  */
 

@@ -1,8 +1,6 @@
 <?php
 
 
-
-
 //---------------------------------------------------------------------------------
 // mm_renameSection
 // Rename a section
@@ -41,18 +39,13 @@ function mm_renameSection($section, $newname, $roles='', $templates='') {
 } // end function
 
 
-
-
-
-
 //---------------------------------------------------------------------------------
 // mm_hideSections
 // Hides sections
 //--------------------------------------------------------------------------------- 
 function mm_hideSections($sections, $roles='', $templates='') {
+ global $modx;
 
-	
-	global $modx;
 	$e = &$modx->Event;
 	
 	// if we've been supplied with a string, convert it into an array 
@@ -94,9 +87,3 @@ function mm_hideSections($sections, $roles='', $templates='') {
 	
 } // end function
 
-
-
-
-
-
-?>

@@ -27,8 +27,3 @@ function mm_hideTemplates($tplIds, $roles='', $templates='') {
         	}
 } 
 		
-		
-	
-	
-	
-?>

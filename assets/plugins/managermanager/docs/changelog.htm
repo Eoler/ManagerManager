@@ -6,9 +6,7 @@
 <link href="css/mm.css" rel="stylesheet" type="text/css" />
 
 </head>
-
 <body>
-
 <div id="banner">ManagerManager plugin fo MODX Evolution</div>
 
 
@@ -28,7 +26,18 @@
     </div>
     
   <div class="content">
-    <h1>Changelog    </h1>
+    <h1>Changelog</h1>
+    <h3>0.4.0</h3>
+  	<ul>
+        <li><a href="http://bugs.modx.com/issues/2945">Enhancement</a>: Better way of getting date format</li>
+        <li><a href="http://bugs.modx.com/issues/2946">Enhancement</a>: Use ModX API for escaping database query</li>
+        <li><a href="http://bugs.modx.com/issues/2949">Bugfix</a>: Ignore @bindings in image widget</li>
+        <li>Bugfix: Checkbox TVs failing to move to different tabs</li>
+        <li><a href="http://forums.modx.com/index.php/topic,56658.0.html">Bugfix</a>: mm_inherit did not get value when changing template (thanks lucas)</li>
+        <li>jQuery update to 1.8.latest</li>
+        <li>Replaced mm_ddGMap widget with mm_googlemap (https://github.com/Eoler/mmGoogleMap)</li>
+        <li>Added new widgets: mm_heading, mm_framedtab</li>
+  	</ul>
 	<h3>0.3.11 (2012.02.15) by <a href="http://www.DivanDesign.biz">DivanDesign</a></h3>
 	<ul>
 		<li>Bugfix: ManagerManager plugin settings last tab (functions/tabs.inc.php: line 132)</li>
@@ -38,12 +47,7 @@
 				<li>Bugfix: Date format (widgets/ddsetfieldvalue/ddsetfieldvalue.php: line 34, 37)</li>
 			</ul>
 		</li>
-		<li>mm_ddGMap update to 1.0.2
-			<ul>
-				<li>New: Multilingual map (widgets/ddgmap/ddgmap.php: line 14, 103)</li>
-			</ul>
-		</li>
-		<li>Added documentation for new widgets: mm_ddGMap, mm_ddYMap, mm_ddSetFieldValue, mm_ddMaxLength, mm_ddAutoFolders (<a href="widgets.htm">docs/widgets.htm</a>)</li>
+		<li>Added documentation for new widgets: mm_ddYMap, mm_ddSetFieldValue, mm_ddMaxLength, mm_ddAutoFolders (<a href="widgets.htm">docs/widgets.htm</a>)</li>
 		<li>Change style of documentation (docs/css/mm.css & minor changes of all html files in docs/) like you see =)</li>
 	</ul>
 	<h3>0.3.10 (2012.01.16) by <a href="http://www.DivanDesign.biz">DivanDesign</a></h3>
@@ -65,7 +69,6 @@
 				<li>Added validating event on widgets/tags/tags.php: line 12. Moved the output to the browser into if on widgets/tags/tags.php: line 98</li>
 			</ul>
 		</li>
-		<li>New: mm_ddGMap widget - integrate the Google Maps</li>
 		<li>New: mm_ddYMap widget - integrate the Yandex Maps</li>
 		<li>New: mm_ddSetFieldValue widget - sets a value for a field (always!)</li>
 		<li>New: mm_ddMaxLength widget - limit the number of characters in the TV (like the Twitter)</li>

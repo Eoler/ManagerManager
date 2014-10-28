@@ -1,7 +1,5 @@
 <?php
 
-
-
 //---------------------------------------------------------------------------------
 // mm_renameTab
 // Rename a tab
@@ -45,8 +43,6 @@ function mm_renameTab($tab, $newname, $roles='', $templates='') {
 			$e->output($output . "\n");
 	}	// end if
 } // end function
-
-
 
 
 //---------------------------------------------------------------------------------
@@ -111,55 +107,34 @@ function mm_hideTabs($tabs, $roles='', $templates='') {
 } // end function
 
 
-
-
-
-
-
-
-
-
 //---------------------------------------------------------------------------------
 // mm_createTab
 // Create a new tab
 //--------------------------------------------------------------------------------- 
-function mm_createTab($name, $id, $roles='', $templates='', $intro='', $width='680') {
-
-	global $modx;
+function mm_createTab($name, $id, $roles='', $templates='', $intro='', $width='100%', $height='', $eventfn='') {
+ global $modx;
 	$e = &$modx->Event;
-			
 	// if the current page is being edited by someone in the list of roles, and uses a template in the list of templates
 	if ((($e->name == 'OnDocFormRender') || ($e->name == 'OnPluginFormRender')) && useThisRule($roles, $templates)){
-	
-		// Plugin page tabs use a differen name for the tab object
+		// Plugin page tabs use a different name for the tab object
 		$js_tab_object = ($e->name == 'OnPluginFormRender') ? 'tpSnippet' : 'tpSettings';
-
-	
-	$output = " // ----------- Create tab -------------- \n";
-
-		$empty_tab = '		
-<div class="tab-page" id="tab'.$id.'">
+	  $output = " // ----------- Create tab -------------- \n";
+    if (!empty($height)) { $height = ' style="height:'.$height.'px;"'; }
+	  $empty_tab = '
+ <div class="tab-page" id="tab'.$id.'">
 	<h2 class="tab">'.$name.'</h2>
-	<div class="tabIntro" id="tab-intro-'.$id.'">'.$intro.'</div>
-	<table width="'.$width.'" border="0" cellspacing="0" cellpadding="0" id="table-'.$id.'">
-	</table>
-</div>
-		';
-		
+	<div id="tab-intro-'.$id.'" class="tabIntro"'.$height.'>'.$intro.'</div>
+	<table width="'.$width.'" border="0" cellspacing="0" cellpadding="0" id="table-'.$id.'"></table>
+ </div> ';
 		// Clean up for js output
 		$empty_tab = str_replace( array("\n", "\t", "\r") , '', $empty_tab);
 		$output .='$j';
 		$output .= "('div#'+mm_lastTab).after('".$empty_tab."'); \n";
 		$output .= "mm_lastTab = 'tab".$id."'; \n";
-		$output .= $js_tab_object. '.addTabPage( document.getElementById( "tab'.$id.'" ) ); ';
-		
-		$e->output($output . "\n");
+    if (!empty($eventfn)) { $eventfn = ", ".$eventfn; }
+		$output .= $js_tab_object. '.addTabPage( document.getElementById( "tab'.$id.'" )'.$eventfn.' ); ';
 
+		$e->output($output . "\n");
 	}	// end if
 } // end function
 
-
-
-
-
-?>

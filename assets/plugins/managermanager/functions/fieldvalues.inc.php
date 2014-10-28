@@ -7,7 +7,6 @@
 //---------------------------------------------------------------------------------
 function mm_default($field, $value='', $roles='', $templates='', $eval=false) {	
 	
-	
 	global $mm_fields, $modx;
 	$e = &$modx->Event;
 		
@@ -31,27 +30,16 @@ function mm_default($field, $value='', $roles='', $templates='', $eval=false) {
 		
 		
 		// Work out the correct date time format based on the config setting
-		switch($modx->config['datetime_format']) {
-			case 'dd-mm-YYYY':
-				$date_format = 'd-m-Y';
-			break;	
-			case 'mm/dd/YYYY':
-				$date_format = 'm-d-Y';
-			break;
-			case 'YYYY/mm/dd':
-				$date_format = 'Y-m-d';
-			break;
-		}
-		
+		$date_format = $modx->toDateFormat(null, 'formatOnly');
 		
 		switch ($field) {
 			case 'pub_date':
-				$new_value = ($new_value=='') ? date("$date_format H:i:s") : $new_value;
+				$new_value = ($new_value=='') ? strftime($date_format . ' %H:%M:%S') : $new_value;
 				$output .= '$j("input[name=pub_date]").val("'.jsSafe($new_value).'"); '."\n";
 			break;
 			
 			case 'unpub_date':
-				$new_value = ($new_value=='') ? date("$date_format H:i:s") : $new_value;
+				$new_value = ($new_value=='') ? strftime($date_format . ' %H:%M:%S') : $new_value;
 				$output .= '$j("input[name=unpub_date]").val("'.jsSafe($new_value).'"); '."\n";
 			break;
 			
@@ -187,7 +175,6 @@ function mm_default($field, $value='', $roles='', $templates='', $eval=false) {
 }
 
 
-
 //---------------------------------------------------------------------------------
 // mm_inherit
 // Inherit values from a parent
@@ -217,8 +204,6 @@ function mm_inherit($fields, $roles='', $templates='') {
 		}
 	
 		$output = " // ----------- Inherit (from page $parentID)-------------- \n";
-	
-		
 		
 		foreach ($fields as $field) {
 			
@@ -241,6 +226,7 @@ function mm_inherit($fields, $roles='', $templates='') {
 			// dbname $dbname			
 			// newvalue $newvalue 	
 				";
+			$date_format = $modx->toDateFormat(null, 'formatOnly');
  						 
 			switch ($field) {
 				
@@ -251,6 +237,7 @@ function mm_inherit($fields, $roles='', $templates='') {
 				break;	
 				
 				case 'is_folder':
+				case 'alias_visible':
 				case 'is_richtext':
 				case 'searchable':
 				case 'cacheable':
@@ -260,7 +247,7 @@ function mm_inherit($fields, $roles='', $templates='') {
 				
 				case 'pub_date':
 				case 'unpub_date':
-					$output .=  '$j("input[name='.$fieldname.']").val("'.date('d-m-Y H:i:s', $newvalue).'"); ';
+					$output .=  '$j("input[name='.$fieldname.']").val("'.strftime($date_format . ' %H:%M:%S', $newvalue).'"); ';
 				break;					
 						
 				default:
@@ -282,10 +269,6 @@ function mm_inherit($fields, $roles='', $templates='') {
 		$e->output($output . "\n");		
 	}
 }
-
-
-
-
 
 
 //---------------------------------------------------------------------------------
@@ -360,6 +343,43 @@ function mm_synch_fields($fields, $roles='', $templates='') {
 }	// end function
 
 
+//---------------------------------------------------------------------------------
+// mm_set_clear_cache
+// Sets a default value for a empty cache field when editing a document everything
+//---------------------------------------------------------------------------------
+function mm_set_clear_cache($value='', $roles='', $templates='') {
+	
+	global $mm_fields, $modx;
+	$e = &$modx->Event;
+		
+	// 85 =
+	// 4  =
+	// 27 = Edit resource
+	
+	$allowed_actions = array('85','4','27');
+	if (!in_array($modx->manager->action, $allowed_actions)) {
+		return;
+	} 
+	if (useThisRule($roles, $templates)) {
+		$doc_id = $_REQUEST['id'];
+		
+		$output = " // ----------- mm_set_clear_cache -------------- \n";
+		
+		$new_value = ($value)?'1':'0';
+		$output .= '$j("input[name=syncsite]").val("'.$new_value.'"); '."\n";
+		if ($value) {
+			$output .= '$j("input[name=syncsitecheck]").attr("checked", "checked"); '."\n";
+		} else {
+			$output .= '$j("input[name=syncsitecheck]").removeAttr("checked"); '."\n";
+		}
+		
+		$cache_file = MODX_BASE_PATH . 'assets/cache/docid_' . $doc_id . '.pageCache.php';
+		if(!file_exists($cache_file)) {
+			$output .= '$j("input[name=syncsitecheck]").attr("disabled", "disabled"); '."\n";
+		}
+		
+		$e->output($output . "\n");	
+	} 
+	
+}
 
-
-?>
