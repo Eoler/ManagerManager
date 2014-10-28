@@ -3,10 +3,10 @@
  * mm_ddMaxLength
  * @version 1.0.1 (2012-01-13)
  *
- * Позволяет ограничить количество вводимых символов в TV.
+ * Widget for ManagerManager plugin allowing number limitation of chars inputing in fields (or TVs).
  *
- * @copyright 2012, DivanDesign
- * http://www.DivanDesign.ru
+ * @copyright 2013, DivanDesign
+ * http://www.DivanDesign.biz
  */
 
 function mm_ddMaxLength($tvs='', $roles='', $templates='', $length=150){

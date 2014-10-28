@@ -3,10 +3,10 @@
  * mm_ddGMap
  * @version 1.0.2 (2012-02-12)
  * 
- * Позволяет интегрировать карту Google Maps для получения координат.
+ * @desc Widget for ManagerManager plugin allowing Google Maps integration.
  * 
- * @copyright 2012, DivanDesign
- * http://www.DivanDesign.ru
+ * @copyright 2014, DivanDesign
+ * http://www.DivanDesign.biz
  */
 
 function mm_ddGMap($tvs, $roles='', $templates='', $w='auto', $h='400') {

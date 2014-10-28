@@ -1,9 +1,9 @@
 <?php
 /**
  * mm_ddAutoFolders
- * @version 1.0.1 (2012-02-15)
- *
- * Automatically move documents (OnBeforeDocFormSave event) based on their date (publication date; any date in tv) into folders of year and month (like 2012/02/). If folders (documents) of year and month doesn`t exist they are created automatically OnBeforeDocFormSave event.
+ * @version 1.2 (2014-04-18)
+ * 
+ * @desc Automatically move documents (OnBeforeDocFormSave event) based on their date (publication date; any date in tv) into folders of year and month (like 2012/02/). If folders (documents) of year and month doesn`t exist they are created automatically OnBeforeDocFormSave event.
  *
  * @uses modx 1.0.5, modx ddTools class 0.1, ManagerManager plugin 0.3.11
  *
@@ -37,8 +37,8 @@
  * @param $ddYearPub {0; 1} - Надо ли публиковать документы-годы. [Optional; Default: 0]
  * @param $ddMonthPub {0; 1} - Надо ли публиковать документы-месяцы. [Optional; Default: 0]
  * 
- * @copyright 2012, DivanDesign
- * http://www.DivanDesign.ru
+ * @copyright 2013, DivanDesign
+ * http://www.DivanDesign.biz
  */
 
 function mm_ddAutoFolders($ddRoles = '', $ddTemplates = '', $ddParent = '', $ddDateSource = 'pub_date', $ddYearTpl = 0, $ddMonthTpl = 0, $ddYearPub = '0', $ddMonthPub = '0'){

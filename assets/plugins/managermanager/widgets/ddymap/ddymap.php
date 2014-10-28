@@ -3,10 +3,10 @@
  * mm_ddYMap
  * @version 1.0.1 (2012-01-13)
  * 
- * Позволяет интегрировать карту Yandex Maps для получения координат.
+ * @desc A widget for ManagerManager plugin allowing Yandex Maps integration.
  * 
- * @copyright 2012, DivanDesign
- * http://www.DivanDesign.ru
+ * @copyright 2013, DivanDesign
+ * http://www.DivanDesign.biz
  */
 
 function mm_ddYMap($tvs, $roles='', $templates='', $key='', $w='auto', $h='400') {

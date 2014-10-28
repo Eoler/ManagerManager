@@ -3,17 +3,17 @@
  * ddSetFieldValue
  * @version 1.0.2 (2012-02-12)
  * 
- * Жёстко выставляет необходимые значения заданному полю
+ * Widget for ManagerManager plugin allowing ducument fields values (or TV fields values) to be strongly defined (reminds of mm_default but field value assignment is permanent).
  * 
  * @todo Основан на mm_default
  * 
- * @param field {string} - Имя поля, для которого необходимо установить значение.
- * @param value {string} - Значение, которое необходимо установить.
- * @param roles {comma separated string} - Id ролей. По умолчанию: для всех ролей.
- * @param templates {comma separated string} - Id шаблонов. По умолчанию: для всех шаблонов.
+ * @param $field {comma separated string} - The name(s) of the document fields (or TVs) for which value setting is required. @required
+ * @param $value {string} - Required value. Default: ''.
+ * @param $roles {comma separated string} - The roles that the widget is applied to (when this parameter is empty then widget is applied to the all roles). Default: ''.
+ * @param $templates {comma separated string} - Id of the templates to which this widget is applied. Default: ''.
  * 
- * @copyright 2012, DivanDesign
- * http://www.DivanDesign.ru
+ * @copyright 2014, DivanDesign
+ * http://www.DivanDesign.biz
  */
 
 function mm_ddSetFieldValue($field, $value='', $roles='', $templates=''){
