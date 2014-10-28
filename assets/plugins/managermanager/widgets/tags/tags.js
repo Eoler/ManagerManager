@@ -1,4 +1,4 @@
-var $j = jQuery.noConflict();
+
 	// If we haven't yet got the function
 	if 	(typeof(TagCompleter) != 'function') {
 		function TagCompleter(tagEntryField, tagIndicatorList, delimiter) {

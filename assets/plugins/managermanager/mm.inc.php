@@ -1,7 +1,7 @@
 <?php
 /**
  * @name ManagerManager
- * @version 0.4.0
+ * @version 0.4.1
  * 
  * @for MODX Evolution 1.0.x
  * 
@@ -18,7 +18,7 @@
  * @license Released under the GNU General Public License: http://creativecommons.org/licenses/GPL/2.0/
  */
 
-$mm_version = '0.4.0'; 
+$mm_version = '0.4.1';
 
 // Bring in some preferences which have been set on the configuration tab of the plugin, and normalise them
 
@@ -117,7 +117,7 @@ $mm_fields = array(
 );				
 
 // Add in TVs to the list of available fields
-$all_tvs = $modx->db->makeArray($modx->db->select("name,type,id,elements", $modx->getFullTableName('site_tmplvars'), '', 'name ASC'));
+$all_tvs = $modx->db->makeArray($modx->db->select('name,type,id,elements', $modx->getFullTableName('site_tmplvars'), '', 'name ASC'));
 foreach ($all_tvs as $thisTv) {
 	
 	$n = $thisTv['name']; // What is the field name?
@@ -292,8 +292,17 @@ switch ($e->name) {
 		$e->output('
 		<div id="loadingmask">&nbsp;</div>
 		<script type="text/javascript">
-			var $j = jQuery.noConflict();
-			$j("#loadingmask").css( {width: "100%", height: $j("body").height(), position: "absolute", zIndex: "1000", backgroundColor: "#ffffff"} );
+			window.$j = jQuery.noConflict();
+			$j("#loadingmask").css({
+				width: "100%",
+				minHeight: "100%",
+				position: "absolute",
+				zIndex: "1000",
+				backgroundColor: "#ffffff"
+			});
+			$j(function(){
+				$j("#loadingmask").css({height: $j("body").height()});
+			});
 		</script>	
 ');
 		$e->output("<!-- End ManagerManager output -->\n");
@@ -308,7 +317,6 @@ switch ($e->name) {
 <!-- You are logged into the following role: '. $mm_current_page['role'] .' -->
 
 <script type="text/javascript" charset="'.$modx->config['modx_charset'].'">
-	var $j = jQuery.noConflict();
 	var mm_lastTab = "tabGeneral";
 	var mm_sync_field_count = 0;
 	var synch_field = new Array();
@@ -354,15 +362,17 @@ switch ($e->name) {
 			
 			// if template variables containers are empty, remove their section
 			if ($j("div.tmplvars :input").length == 0){
-				$j("div.tmplvars").hide();	// Still contains an empty table and some dividers
-				$j("div.tmplvars").prev("div").hide();	// Still contains an empty table and some dividers
+				// Still contains an empty table and some dividers
+				$j("div.tmplvars").hide();
+				// Still contains an empty table and some dividers
+				$j("div.tmplvars").prev("div").hide();
 				//$j("#sectionTVsHeader").hide();
 			}
 			
 			// If template category is empty, hide the optgroup
 			$j("#template optgroup").each(function(){
 				var $this = $j(this),
-						visibleOptions = 0;
+					visibleOptions = 0;
 					
 				$this.find("option").each(function(){
 					if ($j(this).css("display") != "none") visibleOptions++ ;
