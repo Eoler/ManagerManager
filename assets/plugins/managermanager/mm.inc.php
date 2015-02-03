@@ -1,7 +1,7 @@
 <?php
 /**
  * @name ManagerManager
- * @version 0.4.1
+ * @version 0.4.2
  * 
  * @for MODX Evolution 1.0.x
  * 
@@ -18,7 +18,7 @@
  * @license Released under the GNU General Public License: http://creativecommons.org/licenses/GPL/2.0/
  */
 
-$mm_version = '0.4.1';
+$mm_version = '0.4.2';
 
 // Bring in some preferences which have been set on the configuration tab of the plugin, and normalise them
 
@@ -358,7 +358,7 @@ switch ($e->name) {
 			// Misc tidying up
 			
 			// General tab table container is too narrow for receiving TVs -- make it a bit wider
-			$j("div#tabGeneral table").attr("width", "100%");
+			//$j("div#tabGeneral table").attr("width", "100%");
 			
 			// if template variables containers are empty, remove their section
 			if ($j("div.tmplvars :input").length == 0){
@@ -378,17 +378,15 @@ switch ($e->name) {
 					if ($j(this).css("display") != "none") visibleOptions++ ;
 				});
 					
-				if (visibleOptions == 0) $this.hide();
+				// TODO -o Eoler: check timing for   if (visibleOptions == 0) $this.hide();
 			});
 			
 			// Re-initiate the tooltips, in order for them to pick up any new help text which has been added
 			// This bit is MooTools, matching code inserted further up the page
-			if(!window.ie6){
-				$$(".tooltip").each(function(help_img){
-					help_img.setProperty("title", help_img.getProperty("alt"));
-				});
-				new Tips($$(".tooltip"), {className:"custom"});
-			}
+			$$(".tooltip").each(function(help_img){
+				help_img.setProperty("title", help_img.getProperty("alt"));
+			});
+			new Tips($$(".tooltip"), {className:"custom"});
 		} catch (e) { // If there is an error, fail nicely
 			//alert("ManagerManager - an error has occurred: " + e.name + " - " + e.message);
 			$j("#create_edit h1").append(\'<span class="mmRequired">\' + e.name + " - " + e.message + "</span>"); //.addClass("mmRequired")
