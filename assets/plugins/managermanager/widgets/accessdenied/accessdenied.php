@@ -11,12 +11,11 @@ function mm_widget_accessdenied($ids='', $message='',  $roles='') {
 	global $modx, $content;
 	$e = &$modx->Event;
 	
-	if (empty($message))  $message='<span>Access denied</span>Access to current document closed for security reasons.';
-	
-	if ($e->name == 'OnDocFormRender' && useThisRule($roles)) {
+	if ($e->name == 'OnDocFormRender' && useThisRule($roles)){
+		if (empty($message)){$message = '<span>Access denied</span>Access to current document closed for security reasons.';}
 		
-		$docid = (int)$_GET[id];		
-
+		$docid = (int)$_GET[id];
+		
 		$ids = makeArray($ids);
 		
 		$output = "//  -------------- accessdenied widget include ------------- \n";
